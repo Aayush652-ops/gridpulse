@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { translateCause, translatePriority } from '../translations';
+import { getApiUrl } from '../api';
 import { 
   BookCheck, 
   TrendingUp, 
@@ -17,8 +18,6 @@ import {
   HelpCircle,
   Trash2
 } from 'lucide-react';
-
-const API_URL = import.meta.env.VITE_API_URL || '';
 
 export default function PostEventInsights({ t, activeLang }) {
   // State
@@ -54,17 +53,17 @@ export default function PostEventInsights({ t, activeLang }) {
     try {
       setLoading(true);
       // Fetch planned events
-      const eventsRes = await fetch(`${API_URL}/api/planned-events`);
+      const eventsRes = await fetch(getApiUrl('/api/planned-events'));
       const eventsData = await eventsRes.json();
       setEvents(eventsData);
 
       // Fetch analytics
-      const analyticsRes = await fetch(`${API_URL}/api/learning-analytics`);
+      const analyticsRes = await fetch(getApiUrl('/api/learning-analytics'));
       const analyticsData = await analyticsRes.json();
       setAnalytics(analyticsData);
 
       // Fetch outcomes
-      const outcomesRes = await fetch(`${API_URL}/api/event-outcomes`);
+      const outcomesRes = await fetch(getApiUrl('/api/event-outcomes'));
       const outcomesData = await outcomesRes.json();
       setOutcomes(outcomesData);
 
@@ -161,7 +160,7 @@ export default function PostEventInsights({ t, activeLang }) {
         outcome_notes: outcomeNotes
       };
 
-      const res = await fetch(`${API_URL}/api/event-outcomes`, {
+      const res = await fetch(getApiUrl('/api/event-outcomes'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -184,7 +183,7 @@ export default function PostEventInsights({ t, activeLang }) {
   const handleDeleteOutcome = async (outcomeId) => {
     if (!confirm("Are you sure you want to delete this historical learning record? This cannot be undone.")) return;
     try {
-      const res = await fetch(`${API_URL}/api/event-outcomes/${outcomeId}`, {
+      const res = await fetch(getApiUrl(`/api/event-outcomes/${outcomeId}`), {
         method: 'DELETE'
       });
       if (res.ok) {

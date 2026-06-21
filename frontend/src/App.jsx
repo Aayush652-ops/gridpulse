@@ -9,7 +9,7 @@ import CopilotChat from './components/CopilotChat';
 import PreEventPlanner from './components/PreEventPlanner';
 import PostEventInsights from './components/PostEventInsights';
 import LoginScreen from './components/LoginScreen';
-const API_URL = import.meta.env.VITE_API_URL || '';
+import { getApiUrl } from './api';
 
 
 export default function App() {
@@ -72,7 +72,7 @@ export default function App() {
         return;
       }
       try {
-        const res = await fetch(`${API_URL}/api/auth/me`, {
+        const res = await fetch(getApiUrl('/api/auth/me'), {
           headers: {
             'X-Session-Token': token
           }
@@ -96,7 +96,7 @@ export default function App() {
     const token = localStorage.getItem('gridpulse_token');
     if (token) {
       try {
-        await fetch(`${API_URL}/api/auth/logout`, {
+        await fetch(getApiUrl('/api/auth/logout'), {
           method: 'POST',
           headers: {
             'X-Session-Token': token
@@ -145,7 +145,7 @@ export default function App() {
   // Fetch Incidents
   const fetchData = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/events?status=active`, {
+      const res = await fetch(getApiUrl('/api/events?status=active'), {
         headers: {
           'X-Session-Token': localStorage.getItem('gridpulse_token') || ''
         }

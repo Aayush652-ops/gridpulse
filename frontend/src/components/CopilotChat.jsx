@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+import { getApiUrl } from '../api';
+
 
 export default function CopilotChat({ activeLang, t }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -270,7 +271,7 @@ export default function CopilotChat({ activeLang, t }) {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/api/chat`, {
+      const res = await fetch(getApiUrl('/api/chat'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -310,7 +311,7 @@ export default function CopilotChat({ activeLang, t }) {
   // Reset conversation session history
   const handleResetSession = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/chat/reset`, { method: 'POST' });
+      const res = await fetch(getApiUrl('/api/chat/reset'), { method: 'POST' });
       if (res.ok) {
         setMessages([
           { sender: 'system', text: t('chat-reset-msg') || 'Conversation history has been cleared.' },

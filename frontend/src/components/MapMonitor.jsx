@@ -26,7 +26,7 @@ const calculateEcoImpact = (durationHours, severityScore) => {
 
 const BENGALURU_CENTER = [77.5946, 12.9785];
 const MAPTILER_KEY = import.meta.env.VITE_MAPTILER_KEY || '';
-const API_URL = import.meta.env.VITE_API_URL || '';
+import { getApiUrl } from '../api';
 
 function getSeverityColor(priority = 'Low', severity = 0) {
   const clean = priority.toLowerCase();
@@ -230,7 +230,7 @@ export default function MapMonitor({
   // Fetch Hotspots
   const fetchHotspots = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/hotspots`);
+      const res = await fetch(getApiUrl('/api/hotspots'));
       if (res.ok) {
         const data = await res.json();
         setHotspots(data);
@@ -243,7 +243,7 @@ export default function MapMonitor({
   // Fetch Planned Events for Executive Briefing
   const fetchPlannedEvents = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/planned-events`);
+      const res = await fetch(getApiUrl('/api/planned-events'));
       if (res.ok) {
         const data = await res.json();
         setPlannedEvents(data);
@@ -827,7 +827,7 @@ export default function MapMonitor({
     };
 
     try {
-      const res = await fetch(`${API_URL}/api/simulate`, {
+      const res = await fetch(getApiUrl('/api/simulate'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -845,7 +845,7 @@ export default function MapMonitor({
   // Spawn Mock
   const spawnMock = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/spawn_mock`, { method: 'POST' });
+      const res = await fetch(getApiUrl('/api/spawn_mock'), { method: 'POST' });
       if (res.ok) {
         const event = await res.json();
         fetchData();
@@ -859,7 +859,7 @@ export default function MapMonitor({
   // Clear Mocks
   const clearMocks = async () => {
     try {
-      await fetch(`${API_URL}/api/clear_mock`, { method: 'POST' });
+      await fetch(getApiUrl('/api/clear_mock'), { method: 'POST' });
       setSelectedIncident(null);
       fetchData();
     } catch (err) {
