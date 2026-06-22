@@ -2725,9 +2725,10 @@ input::placeholder {
 
 /* Make the content INSIDE the card scrollable instead of the card container */
 .details-card > *:not(.card-header) {
-  overflow-y: auto;
-  flex-shrink: 1;
-  flex-grow: 1;
+  overflow-y: auto !important;
+  flex-shrink: 1 !important;
+  flex-grow: 1 !important;
+  min-height: 0 !important;
   padding-right: 4px;
 }
 
@@ -2769,6 +2770,8 @@ input::placeholder {
 
 .sim-form {
   margin-top: 8px !important;
+  overflow-y: auto !important;
+  min-height: 0 !important;
 }
 
 .sim-form .step-desc {
