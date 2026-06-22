@@ -81,8 +81,9 @@ export default function BackgroundLayer() {
         preload="metadata"
         style={{
           position: 'absolute',
-          width: '100%',
+          width: 'calc(100% + 40px)',
           height: '100%',
+          left: '-20px',
           objectFit: 'cover'
         }}
       />

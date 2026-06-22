@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 const BENGALURU_CENTER = [77.5946, 12.9785];
 const MAPTILER_KEY = import.meta.env.VITE_MAPTILER_KEY || '';
@@ -493,9 +495,6 @@ export default function PreEventPlanner({ t, activeLang, is3D }) {
     setPdfProgress(0);
 
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-
       const logoImg = new Image();
       logoImg.src = '/btp_logo.png';
       await new Promise((resolve) => {
@@ -544,10 +543,13 @@ export default function PreEventPlanner({ t, activeLang, is3D }) {
         const medCongestionCount = sim.hexagons?.filter(h => h.severity >= 40 && h.severity < 65).length || 0;
 
         const pageContainer = document.createElement('div');
-        pageContainer.style.position = 'absolute';
-        pageContainer.style.left = '-9999px';
-        pageContainer.style.top = '-9999px';
+        pageContainer.style.position = 'fixed';
+        pageContainer.style.left = '0px';
+        pageContainer.style.top = '0px';
         pageContainer.style.width = '700px';
+        pageContainer.style.opacity = '0';
+        pageContainer.style.pointerEvents = 'none';
+        pageContainer.style.zIndex = '-9999';
         pageContainer.style.padding = '40px';
         pageContainer.style.backgroundColor = '#ffffff';
         pageContainer.style.color = '#0f172a';

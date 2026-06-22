@@ -140,7 +140,8 @@ export default function EmergencyCorridorCenter({ activeIncidents, selectedIncid
         zoom: 13,
         pitch: is3D ? 55 : 0,
         bearing: 0,
-        antialias: true
+        antialias: true,
+        attributionControl: false
       });
 
       mapRef.current = map;

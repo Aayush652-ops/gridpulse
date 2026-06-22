@@ -4862,4 +4862,10 @@ input::placeholder {
 .erc-vehicle-fire_truck { background-color: #ea580c; }
 .erc-vehicle-police { background-color: #3b82f6; }
 
+/* Global Map Watermark / Attribution Removal */
+.maplibregl-ctrl-attrib,
+.mapboxgl-ctrl-attrib {
+  display: none !important;
+}
+
 
