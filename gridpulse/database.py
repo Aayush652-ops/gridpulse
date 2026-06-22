@@ -1,7 +1,11 @@
 import sqlite3
 import os
 
-DB_PATH = os.environ.get("GRIDPULSE_DB_PATH", "gridpulse.db")
+# Render persistent disk is mounted at /data. If the folder exists, default to storing the database there.
+if os.path.exists("/data"):
+    DB_PATH = os.environ.get("GRIDPULSE_DB_PATH", "/data/gridpulse.db")
+else:
+    DB_PATH = os.environ.get("GRIDPULSE_DB_PATH", "gridpulse.db")
 
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH)
