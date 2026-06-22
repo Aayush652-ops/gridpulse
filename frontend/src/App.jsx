@@ -353,7 +353,7 @@ export default function App() {
           </div>
           <div className="header-right">
 
-            {import.meta.env.VITE_MAPTILER_KEY && (activeTab === 'monitor' || activeTab === 'planner') && (
+            {(activeTab === 'monitor' || activeTab === 'planner' || activeTab === 'emergency') && (
               <button
                 onClick={() => setIs3D(prev => !prev)}
                 className="user-widget"

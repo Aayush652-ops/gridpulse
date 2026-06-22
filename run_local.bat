@@ -5,6 +5,14 @@ echo   GridPulse: Predictive Congestion Mitigator
 echo   Starting Backend and Frontend services...
 echo ===================================================
 
+:: Load environment variables from .env file if it exists
+if exist .env (
+    echo Loading environment variables from .env ...
+    for /f "usebackq tokens=1,* delims==" %%i in (`findstr /v "^#" .env`) do (
+        set "%%i=%%j"
+    )
+)
+
 :: Start Backend Server
 echo.
 echo [1/2] Launching backend FastAPI server...
@@ -17,3 +25,4 @@ cd frontend
 npm run dev
 
 pause
+

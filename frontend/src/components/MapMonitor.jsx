@@ -191,7 +191,7 @@ export default function MapMonitor({
   const markerRefs = useRef([]);
   const selectionMarkerRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
-  const [mapUnavailable, setMapUnavailable] = useState(!MAPTILER_KEY);
+  const [mapUnavailable, setMapUnavailable] = useState(false);
 
   // Local simulation inputs
   const [lat, setLat] = useState('');
@@ -266,12 +266,18 @@ export default function MapMonitor({
 
   // Initialize MapLibre Map
   useEffect(() => {
-    if (!MAPTILER_KEY || !mapContainerRef.current || mapRef.current) return undefined;
+    if (!mapContainerRef.current || mapRef.current) return undefined;
 
     try {
+      const key = (MAPTILER_KEY || '').replace(/['"]/g, '').trim();
+      const hasValidKey = key && key !== 'your_maptiler_api_key_here' && key !== 'placeholder' && !key.includes('your_');
+      const mapStyle = hasValidKey
+        ? `https://api.maptiler.com/maps/hybrid/style.json?key=${key}`
+        : 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+
       const map = new maplibregl.Map({
         container: mapContainerRef.current,
-        style: `https://api.maptiler.com/maps/hybrid/style.json?key=${MAPTILER_KEY}`,
+        style: mapStyle,
         center: BENGALURU_CENTER,
         zoom: 13.5,
         pitch: 55,
@@ -447,9 +453,11 @@ export default function MapMonitor({
     const map = mapRef.current;
     map.__is3D = is3D;
 
-    const nextStyle = is3D
-      ? `https://api.maptiler.com/maps/hybrid/style.json?key=${MAPTILER_KEY}`
-      : `https://api.maptiler.com/maps/dataviz-light/style.json?key=${MAPTILER_KEY}`;
+    const key = (MAPTILER_KEY || '').replace(/['"]/g, '').trim();
+    const hasValidKey = key && key !== 'your_maptiler_api_key_here' && key !== 'placeholder' && !key.includes('your_');
+    const nextStyle = hasValidKey
+      ? (is3D ? `https://api.maptiler.com/maps/hybrid/style.json?key=${key}` : `https://api.maptiler.com/maps/dataviz-light/style.json?key=${key}`)
+      : (is3D ? 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json' : 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json');
     
     map.setStyle(nextStyle);
 
@@ -908,7 +916,7 @@ export default function MapMonitor({
         
         
 
-        {(!MAPTILER_KEY || mapUnavailable) && (
+        {mapUnavailable && (
           <div style={{
             position: 'absolute',
             top: 0, left: 0, right: 0, bottom: 0,

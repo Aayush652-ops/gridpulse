@@ -130,12 +130,18 @@ export default function EmergencyCorridorCenter({ activeIncidents, selectedIncid
 
   // Init Map
   useEffect(() => {
-    if (!MAPTILER_KEY || !mapContainerRef.current || mapRef.current) return;
+    if (!mapContainerRef.current || mapRef.current) return;
 
     try {
+      const key = (MAPTILER_KEY || '').replace(/['"]/g, '').trim();
+      const hasValidKey = key && key !== 'your_maptiler_api_key_here' && key !== 'placeholder' && !key.includes('your_');
+      const mapStyle = hasValidKey
+        ? `https://api.maptiler.com/maps/hybrid/style.json?key=${key}`
+        : 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+
       const map = new maplibregl.Map({
         container: mapContainerRef.current,
-        style: `https://api.maptiler.com/maps/hybrid/style.json?key=${MAPTILER_KEY}`,
+        style: mapStyle,
         center: BENGALURU_CENTER,
         zoom: 13,
         pitch: is3D ? 55 : 0,
@@ -230,9 +236,11 @@ export default function EmergencyCorridorCenter({ activeIncidents, selectedIncid
   // Update map style when is3D changes
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;
-    const style = is3D 
-      ? `https://api.maptiler.com/maps/hybrid/style.json?key=${MAPTILER_KEY}`
-      : `https://api.maptiler.com/maps/dataviz-light/style.json?key=${MAPTILER_KEY}`;
+    const key = (MAPTILER_KEY || '').replace(/['"]/g, '').trim();
+    const hasValidKey = key && key !== 'your_maptiler_api_key_here' && key !== 'placeholder' && !key.includes('your_');
+    const style = hasValidKey 
+      ? (is3D ? `https://api.maptiler.com/maps/hybrid/style.json?key=${key}` : `https://api.maptiler.com/maps/dataviz-light/style.json?key=${key}`)
+      : (is3D ? 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json' : 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json');
     
     mapRef.current.once('styledata', () => {
       ensureLayersExist(mapRef.current);
