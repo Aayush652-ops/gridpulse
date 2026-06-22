@@ -932,7 +932,7 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
             <div>© {new Date().getFullYear()} GridPulse Inc. All government operations restricted.</div>
             <div className="footer-bottom-links">
               <a href="https://github.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                <Github size={14} /> GitHub
+                <GithubIcon size={14} /> GitHub
               </a>
               <a href="#team">Team</a>
               <a href="mailto:support@gridpulse.gov">Contact Support</a>
