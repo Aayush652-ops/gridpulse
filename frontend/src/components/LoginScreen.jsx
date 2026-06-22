@@ -82,7 +82,11 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
   const loginVideoRef = useRef(null);
   useEffect(() => {
     if (loginVideoRef.current) {
-      loginVideoRef.current.play().catch(e => console.error("Login video play error:", e));
+      loginVideoRef.current.play().catch(e => {
+        if (e.name !== 'AbortError') {
+          console.error("Login video play error:", e);
+        }
+      });
     }
   }, []);
 
