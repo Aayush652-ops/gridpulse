@@ -42,12 +42,8 @@
 }
 
 body {
-  background-image: url('/clear_sky_background.png') !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
-  background-color: #0c0f1d !important;
+  background-image: none !important;
+  background-color: #050b18 !important;
   color: var(--text-primary);
   font-family: var(--font-sans);
   overflow: hidden;
@@ -4267,5 +4263,232 @@ input::placeholder {
     margin-left: 0;
     width: 100vw;
   }
+}
+
+/* ========================================================
+   DYNAMIC SMART-CITY TIME-OF-DAY BACKGROUND
+   ======================================================== */
+.smart-city-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  transition: background 2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Base Sky States */
+.smart-city-background.sc-morning {
+  background: linear-gradient(180deg, #DCEEFF 0%, #A8D8FF 60%, #7FCBFF 100%);
+}
+
+.smart-city-background.sc-noon {
+  background: linear-gradient(180deg, #87CEEB 0%, #4DA6FF 55%, #D6F0FF 100%);
+}
+
+.smart-city-background.sc-evening {
+  background: linear-gradient(180deg, #FFB347 0%, #FFCC80 60%, #FFD699 100%);
+}
+
+.smart-city-background.sc-night {
+  background: linear-gradient(180deg, #050B18 0%, #081426 65%, #0B1830 100%);
+}
+
+/* Celestial / Sun / Horizon Glow */
+.sc-glow {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  transition: all 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
+
+.sc-morning .sc-glow {
+  top: -100px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(255, 235, 180, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+  transform: translate(-50px, 50px);
+}
+
+.sc-noon .sc-glow {
+  top: -200px;
+  left: 30%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0%, rgba(135, 206, 235, 0) 70%);
+  transform: translate(0, 0);
+}
+
+.sc-evening .sc-glow {
+  bottom: -150px;
+  right: 15%;
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.45) 0%, rgba(255, 204, 128, 0) 70%);
+  transform: translate(0, -50px);
+}
+
+.sc-night .sc-glow {
+  top: 10%;
+  right: 10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, rgba(8, 20, 38, 0) 70%);
+  mix-blend-mode: plus-lighter;
+}
+
+/* Skyline Layers */
+.sc-skyline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  pointer-events: none;
+  transition: fill 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sc-morning .sc-skyline-back {
+  fill: rgba(168, 216, 255, 0.35);
+}
+.sc-morning .sc-skyline-front {
+  fill: rgba(127, 203, 255, 0.45);
+}
+
+.sc-noon .sc-skyline-back {
+  fill: rgba(77, 166, 255, 0.15);
+}
+.sc-noon .sc-skyline-front {
+  fill: rgba(77, 166, 255, 0.25);
+}
+
+.sc-evening .sc-skyline-back {
+  fill: rgba(255, 179, 71, 0.3);
+}
+.sc-evening .sc-skyline-front {
+  fill: rgba(255, 204, 128, 0.45);
+}
+
+.sc-night .sc-skyline-back {
+  fill: rgba(8, 20, 38, 0.75);
+}
+.sc-night .sc-skyline-front {
+  fill: rgba(5, 11, 24, 0.92);
+}
+
+/* City Windows / Lights */
+.sc-window-lights {
+  opacity: 0;
+  transition: opacity 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sc-evening .sc-window-lights {
+  opacity: 0.6;
+}
+
+.sc-night .sc-window-lights {
+  opacity: 1;
+}
+
+/* Grid & Networks */
+.sc-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: center bottom;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  pointer-events: none;
+}
+
+.sc-night .sc-grid-overlay {
+  opacity: 0.35;
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+}
+
+.sc-noon .sc-grid-overlay {
+  opacity: 0.15;
+}
+
+/* Clouds Layer */
+.sc-clouds {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 200%;
+  height: 25%;
+  pointer-events: none;
+  opacity: 0.4;
+  transition: opacity 2s ease-in-out;
+}
+
+.sc-clouds-layer-1 {
+  background: transparent;
+  animation: driftClouds 160s linear infinite;
+}
+
+.sc-clouds-layer-2 {
+  background: transparent;
+  animation: driftClouds 260s linear infinite reverse;
+  opacity: 0.5;
+}
+
+@keyframes driftClouds {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Road Network and Light Streams */
+.sc-road-network {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  pointer-events: none;
+}
+
+.sc-traffic-stream {
+  stroke-dasharray: 40, 160;
+  stroke-dashoffset: 0;
+  animation: trafficFlow 4s linear infinite;
+  transition: stroke 2s ease, stroke-width 2s ease, opacity 2s ease;
+}
+
+.sc-traffic-stream-fast {
+  animation: trafficFlow 2.5s linear infinite;
+}
+
+@keyframes trafficFlow {
+  to {
+    stroke-dashoffset: -200;
+  }
+}
+
+/* Morning/Noon Light Trail values */
+.sc-morning .sc-traffic-stream,
+.sc-noon .sc-traffic-stream {
+  opacity: 0.25;
+}
+
+/* Evening/Night Glow values */
+.sc-evening .sc-traffic-stream {
+  opacity: 0.7;
+}
+
+.sc-night .sc-traffic-stream {
+  opacity: 1;
 }
 

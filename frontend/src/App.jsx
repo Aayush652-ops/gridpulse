@@ -9,6 +9,7 @@ import CopilotChat from './components/CopilotChat';
 import PreEventPlanner from './components/PreEventPlanner';
 import PostEventInsights from './components/PostEventInsights';
 import LoginScreen from './components/LoginScreen';
+import BackgroundLayer from './components/BackgroundLayer';
 import { getApiUrl } from './api';
 
 
@@ -258,6 +259,7 @@ export default function App() {
 
   return (
     <div className={`app-container tab-${activeTab}`}>
+      <BackgroundLayer />
       {/* Sidebar - Visual controls and feeds */}
       <aside className="sidebar">
         <div className="sidebar-header">
