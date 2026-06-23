@@ -116,10 +116,12 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
   const [feedbackEmail, setFeedbackEmail] = useState('');
   const [feedbackMsg, setFeedbackMsg] = useState('');
   const [feedbackSuccess, setFeedbackSuccess] = useState(false);
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
 
   const [issueType, setIssueType] = useState('bug');
   const [issueDesc, setIssueDesc] = useState('');
   const [issueSuccess, setIssueSuccess] = useState(false);
+  const [issueSubmitting, setIssueSubmitting] = useState(false);
 
   const dict = translations[activeLang] || translations['en'];
   const t = (key) => dict[key] || key;
@@ -184,24 +186,77 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
     setActiveSection(id);
   };
 
-  const handleFeedbackSubmit = (e) => {
+  const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
-    setFeedbackSuccess(true);
-    setTimeout(() => {
-      setFeedbackName('');
-      setFeedbackEmail('');
-      setFeedbackMsg('');
-      setFeedbackSuccess(false);
-    }, 2500);
+    setFeedbackSubmitting(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          access_key: "91b402ff-5b3c-47e1-8317-183f7959b7d9",
+          name: feedbackName,
+          email: feedbackEmail,
+          message: feedbackMsg,
+          subject: `GridPulse Feedback from ${feedbackName}`
+        })
+      });
+      const result = await response.json();
+      if (result.success) {
+        setFeedbackSuccess(true);
+        setTimeout(() => {
+          setFeedbackName('');
+          setFeedbackEmail('');
+          setFeedbackMsg('');
+          setFeedbackSuccess(false);
+        }, 2500);
+      } else {
+        alert("Failed to send feedback. Please try again or email us directly at gridpulse.support@gmail.com");
+      }
+    } catch (err) {
+      console.error("Feedback submission error:", err);
+      alert("An error occurred. Please try again or email us directly at gridpulse.support@gmail.com");
+    } finally {
+      setFeedbackSubmitting(false);
+    }
   };
 
-  const handleIssueSubmit = (e) => {
+  const handleIssueSubmit = async (e) => {
     e.preventDefault();
-    setIssueSuccess(true);
-    setTimeout(() => {
-      setIssueDesc('');
-      setIssueSuccess(false);
-    }, 2500);
+    setIssueSubmitting(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          access_key: "91b402ff-5b3c-47e1-8317-183f7959b7d9",
+          issue_type: issueType,
+          description: issueDesc,
+          subject: `GridPulse Issue Report: ${issueType}`
+        })
+      });
+      const result = await response.json();
+      if (result.success) {
+        setIssueSuccess(true);
+        setTimeout(() => {
+          setIssueDesc('');
+          setIssueSuccess(false);
+        }, 2500);
+      } else {
+        alert("Failed to report issue. Please try again or email us directly at gridpulse.support@gmail.com");
+      }
+    } catch (err) {
+      console.error("Issue submission error:", err);
+      alert("An error occurred. Please try again or email us directly at gridpulse.support@gmail.com");
+    } finally {
+      setIssueSubmitting(false);
+    }
   };
 
   // Helper for password strength
@@ -869,7 +924,7 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
                 Integrated Command & Control (ICCC) dashboard system built for city municipal planners. Providing live detour overlays, emergency corridor signaling overrides, and post-event analytics ingestion.
               </p>
               <p style={{ marginTop: '20px', color: '#64748b', fontSize: '13px' }}>
-                <Mail size={14} style={{ display: 'inline', marginRight: '6px' }} /> support@gridpulse.gov<br />
+                <Mail size={14} style={{ display: 'inline', marginRight: '6px' }} /> gridpulse.support@gmail.com<br />
                 <Phone size={14} style={{ display: 'inline', marginRight: '6px', marginTop: '6px' }} /> +91 (80) 2225 1111
               </p>
             </div>
@@ -888,6 +943,7 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
             <div className="footer-forms">
               <div>
                 <h4>Feedback Form</h4>
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '12px' }}>Or email directly: <a href="mailto:gridpulse.support@gmail.com" style={{ color: '#38bdf8' }}>gridpulse.support@gmail.com</a></p>
                 <form onSubmit={handleFeedbackSubmit} className="footer-form-box">
                   <input 
                     type="text" 
@@ -910,14 +966,15 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
                     onChange={(e) => setFeedbackMsg(e.target.value)}
                     required
                   ></textarea>
-                  <button type="submit" className="btn-footer-submit">
-                    {feedbackSuccess ? 'Submitted!' : 'Submit Feedback'}
+                  <button type="submit" className="btn-footer-submit" disabled={feedbackSubmitting || feedbackSuccess}>
+                    {feedbackSubmitting ? 'Submitting...' : (feedbackSuccess ? 'Submitted!' : 'Submit Feedback')}
                   </button>
                 </form>
               </div>
 
               <div>
                 <h4>Issue Reporting Form</h4>
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '12px' }}>Or email directly: <a href="mailto:gridpulse.support@gmail.com" style={{ color: '#38bdf8' }}>gridpulse.support@gmail.com</a></p>
                 <form onSubmit={handleIssueSubmit} className="footer-form-box">
                   <select value={issueType} onChange={(e) => setIssueType(e.target.value)}>
                     <option value="bug">System Bug</option>
@@ -932,8 +989,8 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
                     onChange={(e) => setIssueDesc(e.target.value)}
                     required
                   ></textarea>
-                  <button type="submit" className="btn-footer-submit">
-                    {issueSuccess ? 'Reported!' : 'Report Issue'}
+                  <button type="submit" className="btn-footer-submit" disabled={issueSubmitting || issueSuccess}>
+                    {issueSubmitting ? 'Reporting...' : (issueSuccess ? 'Reported!' : 'Report Issue')}
                   </button>
                 </form>
               </div>
@@ -947,7 +1004,7 @@ export default function LoginScreen({ activeLang, setActiveLang, onLoginSuccess 
                 <GithubIcon size={14} /> GitHub
               </a>
               <a href="#team">Team</a>
-              <a href="mailto:support@gridpulse.gov">Contact Support</a>
+              <a href="mailto:gridpulse.support@gmail.com">Contact Support</a>
             </div>
           </div>
         </footer>
