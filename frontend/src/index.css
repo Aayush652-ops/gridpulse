@@ -2320,8 +2320,8 @@ body {
   
   /* Color Palette - Deep Navy & Midnight Blue */
   --bg-primary: #030712; /* Deep space background */
-  --bg-secondary: rgba(11, 15, 25, 0.65); /* Glass header/sidebar */
-  --bg-card: rgba(17, 24, 39, 0.55); /* Glass card */
+  --bg-secondary: rgba(11, 15, 25, 0.95); /* Glass header/sidebar */
+  --bg-card: rgba(17, 24, 39, 0.95); /* Glass card */
   --bg-card-hover: rgba(31, 41, 55, 0.8);
   --border-color: rgba(6, 182, 212, 0.15); /* Thin cyan-tinted borders */
   --border-color-active: rgba(6, 182, 212, 0.4);
@@ -2399,7 +2399,7 @@ body {
    ======================================================== */
 
 .sidebar {
-  background: rgba(11, 20, 38, 0.78) !important;
+  background: rgba(11, 20, 38, 0.95) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(6, 182, 212, 0.35) !important;
@@ -2424,7 +2424,7 @@ body {
   left: 16px !important;
   right: 16px !important;
   height: 72px !important;
-  background: rgba(15, 23, 42, 0.55) !important;
+  background: rgba(15, 23, 42, 0.95) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -2442,7 +2442,7 @@ body {
   position: absolute !important;
   top: 104px !important;
   left: 16px !important;
-  background: rgba(15, 23, 42, 0.45) !important;
+  background: rgba(15, 23, 42, 0.95) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   border: 1px solid rgba(255, 255, 255, 0.06) !important;
@@ -2510,7 +2510,7 @@ body {
   bottom: 16px !important;
   left: auto !important;
   right: 16px !important;
-  background-color: rgba(15, 23, 42, 0.85) !important;
+  background-color: rgba(15, 23, 42, 0.95) !important;
   backdrop-filter: blur(12px) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 6px !important;
@@ -2522,12 +2522,7 @@ body {
 /* ========================================================
    COMPONENT ENHANCEMENTS
    ======================================================== */
-.feed-item::before {
-  content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--text-muted);
-}
-.feed-item:has(.badge-high)::before { background: var(--accent-red); box-shadow: 0 0 10px var(--accent-red); }
-.feed-item:has(.badge-medium)::before { background: var(--accent-orange); box-shadow: 0 0 10px var(--accent-orange); }
-.feed-item:has(.badge-low)::before { background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue); }
+
 
 .feed-item.active {
   background: rgba(6,182,212,0.08) !important;
@@ -2643,8 +2638,8 @@ body {
    ========================================================================= */
 
 :root {
-  --bg-secondary: rgba(8, 12, 20, 0.65) !important;
-  --bg-card: rgba(15, 23, 42, 0.65) !important;
+  --bg-secondary: rgba(8, 12, 20, 0.95) !important;
+  --bg-card: rgba(15, 23, 42, 0.95) !important;
   --text-muted: #94a3b8 !important;
   --text-secondary: #cbd5e1 !important;
 }
@@ -2856,7 +2851,7 @@ input::placeholder {
 
 /* 1. Header, Tab switcher, Sidebar, and Bottom panels high-contrast theme */
 .main-header, .nav-tab-container, .details-card, .sidebar {
-  background: rgba(11, 20, 38, 0.78) !important; /* Premium glass slate blue background */
+  background: rgba(11, 20, 38, 0.95) !important; /* Premium glass slate blue background */
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
   border: 1px solid rgba(6, 182, 212, 0.35) !important; /* Pop neon cyan border */
