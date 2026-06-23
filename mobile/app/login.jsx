@@ -50,10 +50,33 @@ export default function LoginScreen() {
       style={styles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <LinearGradient
-        colors={[Colors.background, Colors.surface]}
-        style={StyleSheet.absoluteFillObject}
-      />
+      {Platform.OS === 'web' ? (
+        <View style={StyleSheet.absoluteFillObject}>
+          <video
+            src={require('../assets/background.mp4')}
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: 0.6,
+            }}
+          />
+          <LinearGradient
+            colors={['rgba(5, 10, 25, 0.4)', 'rgba(5, 10, 25, 0.85)']}
+            style={StyleSheet.absoluteFillObject}
+          />
+        </View>
+      ) : (
+        <LinearGradient
+          colors={[Colors.background, Colors.surface]}
+          style={StyleSheet.absoluteFillObject}
+        />
+      )}
       <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
         
         <View style={styles.header}>

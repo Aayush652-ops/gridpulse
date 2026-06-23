@@ -3,7 +3,9 @@ import { Platform } from 'react-native';
 // GridPulse Mobile Commander — App Configuration
 export const Config = {
   // API Configuration — Points to Render backend
-  API_BASE_URL: 'https://gridpulse-qg9h.onrender.com',
+  API_BASE_URL: Platform.OS === 'web'
+    ? 'https://corsproxy.io/?https://gridpulse-qg9h.onrender.com'
+    : 'https://gridpulse-qg9h.onrender.com',
 
   // MapTiler Configuration
   MAPTILER_KEY: '307hElwyEnYjI44fnWEx',

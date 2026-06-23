@@ -13,7 +13,7 @@ export function QuickActions() {
     { id: 'copilot', icon: 'chatbubbles', label: 'AI Copilot', route: '/copilot', color: Colors.primary },
     { id: 'corridor', icon: 'git-network', label: 'Corridor', route: '/corridor', color: Colors.success },
     { id: 'weather', icon: 'partly-sunny', label: 'Weather', route: '/weather', color: Colors.warning },
-    { id: 'simulate', icon: 'add-circle', label: 'Simulate', route: '/(tabs)/incidents', color: Colors.info },
+    { id: 'map', icon: 'map', label: 'Command Map', route: '/map', color: Colors.info },
   ];
 
   return (

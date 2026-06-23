@@ -62,13 +62,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <Ionicons name="person" size={24} color={color} />,
         }}
       />
-      {/* Hidden tabs that still belong to the layout but shouldn't be in the bottom bar */}
       <Tabs.Screen
         name="map"
         options={{
-          href: null,
+          title: 'Map',
+          tabBarIcon: ({ color }) => <Ionicons name="map" size={24} color={color} />,
         }}
       />
+      {/* Hidden tabs that still belong to the layout but shouldn't be in the bottom bar */}
       <Tabs.Screen
         name="more"
         options={{
